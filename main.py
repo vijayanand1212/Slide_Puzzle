@@ -24,9 +24,10 @@ moves = 0
 # Pygame
 pygame.init()
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((SCREEN_SIZE + 35, SCREEN_SIZE + 35))
+screen = pygame.display.set_mode((SCREEN_SIZE + col*10, SCREEN_SIZE + col*10))
 pygame.display.set_caption("Slide Puzzle")
-
+icon = pygame.image.load(r'./icon.png')
+pygame.display.set_icon(icon)
 
 def get_images(path):
     for filename in os.listdir(path):
@@ -77,9 +78,11 @@ def makeBoard(image_size, board_size):
     slicedImage.append(imageListL)
 
     # Making Correct Shuffled Board
-    global inversions
+    global inversions,slicedPuzzleImage,slicedPuzzleImage1d
     puzzleCreated = False
     while puzzleCreated == False:
+
+
         if col % 2 == 0:
             ls = slicedImage1d
             random.shuffle(ls)
@@ -113,7 +116,8 @@ def makeBoard(image_size, board_size):
             else:
                 puzzleCreated = False
 
-    global slicedPuzzleImage
+
+
     nparray = numpy.array(slicedPuzzleImage1d)
     nparray = nparray.reshape(col, col)
     slicedPuzzleImage = list(nparray)
@@ -273,6 +277,8 @@ while running:
 
                 slicedPuzzleImage[col-1][col-1] = imageLastPiece
                 print("Wonnnnn!,Completed In",moves)
+                screen.fill((255, 0, 0))
+
                 blitImages()
                 pygame.display.update()
                 completedImagesPath.append(imagepath)
